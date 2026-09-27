@@ -1,0 +1,1 @@
+Play five poker games against computer opponents with optional betting guidance.

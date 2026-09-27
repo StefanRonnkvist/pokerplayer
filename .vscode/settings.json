@@ -1,0 +1,12 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.gradle.enabled": true,
+  "java.import.gradle.wrapper.enabled": true,
+  "java.jdt.ls.java.home": "C:/Program Files/Android/Android Studio/jbr",
+  "gradle.java.home": "C:/Program Files/Android/Android Studio/jbr",
+  "gradle.nestedProjects": [
+    "android"
+  ],
+  "cmake.sourceDirectory": "${workspaceFolder}/windows"
+}

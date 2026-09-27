@@ -1,0 +1,40 @@
+Play Poker brings five poker variants together in one virtual-chip table. Take the Player 1 seat, configure 2-5 players, and play against computer-controlled opponents that bet, call, raise, check, and fold.
+
+FIVE CARD
+
+Deal five cards to every player, complete the betting, and reveal the active hands. Standard poker rankings and tie-break rules identify the winner or tied winners. Five Card also restores its cards, bankrolls, wagers, actions, folds, and result when you return.
+
+DRAW
+
+Play five-card draw with a configurable replacement limit. Complete the betting round, tap the cards you want to replace or stand pat, and compare the remaining hands at showdown. Computer players choose their own discards.
+
+FIVE-CARD STUD
+
+Play five betting streets as the cards arrive. The first and fifth cards are down, while cards two through four are visible. Tap your down cards to view them and follow each opponent's exposed cards and wagers.
+
+SEVEN-CARD STUD
+
+Play seven betting streets with the first and seventh cards down and five cards visible. At showdown, Play Poker evaluates the best five-card combination from each active player's seven cards.
+
+TEXAS HOLD'EM
+
+Receive two private hole cards and play four betting rounds: pre-flop, flop, turn, and river. Five shared community cards build the board. Each active player uses the best five-card combination available from their hole cards and the board. This table uses the configured ante rather than blinds.
+
+CUSTOMIZE AND PLAY
+
+- Choose 2-5 players
+- Set the starting virtual-chip bank and ante
+- Set the maximum Draw replacements
+- Turn on Teach Mode for Player 1 betting suggestions
+- Choose from 10 remembered card-back designs
+- Watch bankrolls and wagers as stacks of chip images
+- Continue watching computer play after you fold
+- Split pots automatically when hands tie
+
+Teach Mode estimates a suggested bet from the current hand, opponents, pot, call cost, and available bank. Suggestions are guidance, not a guarantee of winning. Wagers cannot exceed the player's available virtual-chip bank.
+
+Play Poker uses a standard 52-card deck and recognizes hands from High Card through Straight Flush. Responsive tables support phones, tablets, and larger screens, while the tab bar scrolls when space is limited.
+
+The Information tab provides developer contact and inquiry tools when an internet connection is available. Built-in Help explains every game and shared control.
+
+Play Poker is a virtual poker game and does not support real-money wagering or prizes.
