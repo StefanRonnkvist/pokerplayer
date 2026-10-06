@@ -198,7 +198,7 @@ class _StudPageState extends State<StudPage> {
         await _showWagerDialog(
           player,
           action,
-          minimumAmount: callAmount + 1,
+          minimumAmount: _highestBet + 1,
           callAmount: callAmount,
         );
       case 'Call':
@@ -258,7 +258,8 @@ class _StudPageState extends State<StudPage> {
       return;
     }
     setState(() {
-      playerBalances[player] = _playerBalance(player) +
+      playerBalances[player] =
+          _playerBalance(player) +
           (choice == 'add-bank' ? widget.initialBankAmount : callAmount);
     });
     if (choice == 'offer-call') {
@@ -777,10 +778,7 @@ class _StudPageState extends State<StudPage> {
                                         _highestBet > 0 &&
                                         _playerBalance(player) >
                                             _highestBet - _playerBet(player),
-                                    canCall:
-                                        _highestBet > _playerBet(player) &&
-                                        _playerBalance(player) >=
-                                            _highestBet - _playerBet(player),
+                                    canCall: _highestBet > _playerBet(player),
                                     canCheck: _highestBet == _playerBet(player),
                                     recommendedBet: _teachModeRecommendation(
                                       player,

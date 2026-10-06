@@ -395,7 +395,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
         await _showWagerDialog(
           player,
           action,
-          minimumAmount: callAmount + 1,
+          minimumAmount: _highestWager + 1,
           callAmount: callAmount,
         );
       case 'Call':
@@ -456,7 +456,8 @@ class _FiveCardPageState extends State<FiveCardPage> {
       return;
     }
     setState(() {
-      playerBalances[player] = _playerBalance(player) +
+      playerBalances[player] =
+          _playerBalance(player) +
           (choice == 'add-bank' ? widget.initialBankAmount : callAmount);
     });
     if (choice == 'offer-call') {
@@ -939,10 +940,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
                                       _highestWager > 0 &&
                                       _playerBalance(player) >
                                           _highestWager - _playerBet(player),
-                                  canCall:
-                                      _highestWager > _playerBet(player) &&
-                                      _playerBalance(player) >=
-                                          _highestWager - _playerBet(player),
+                                  canCall: _highestWager > _playerBet(player),
                                   canCheck: _highestWager == _playerBet(player),
                                   recommendedBet: _teachModeRecommendation(
                                     player,

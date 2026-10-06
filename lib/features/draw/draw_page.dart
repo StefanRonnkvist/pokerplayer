@@ -195,12 +195,16 @@ class _DrawPageState extends State<DrawPage> {
         await _showWagerDialog(
           player,
           action,
-          minimumAmount: callAmount + 1,
+          minimumAmount: _highestBet + 1,
           callAmount: callAmount,
         );
       case 'Call':
         final callAmount = math.max(0, _highestBet - _playerBet(player));
-        if (callAmount == 0 || callAmount > _playerBalance(player)) {
+        if (callAmount == 0) {
+          return;
+        }
+        if (callAmount > _playerBalance(player)) {
+          await _showInsufficientFundsDialog(player, callAmount);
           return;
         }
         _commitWager(player, callAmount, action);
@@ -216,6 +220,47 @@ class _DrawPageState extends State<DrawPage> {
           _completeRaiseResponse(player);
         });
         _continueAfterUserAction(player);
+    }
+  }
+
+  Future<void> _showInsufficientFundsDialog(int player, int callAmount) async {
+    final choice = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Not enough funds to call'),
+        content: Text(
+          'Player $player needs \\$callAmount to call, but has '
+          '\$${_playerBalance(player)} available.',
+        ),
+        actions: [
+          TextButton(
+            key: const ValueKey('insufficient-funds-cancel'),
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            key: const ValueKey('insufficient-funds-add-bank'),
+            onPressed: () => Navigator.of(dialogContext).pop('add-bank'),
+            child: Text('Add ${widget.initialBankAmount} bank'),
+          ),
+          FilledButton(
+            key: const ValueKey('insufficient-funds-offer-call'),
+            onPressed: () => Navigator.of(dialogContext).pop('offer-call'),
+            child: Text('Add funds to call ($callAmount)'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || choice == null) {
+      return;
+    }
+    setState(() {
+      playerBalances[player] =
+          _playerBalance(player) +
+          (choice == 'add-bank' ? widget.initialBankAmount : callAmount);
+    });
+    if (choice == 'offer-call') {
+      _commitWager(player, callAmount, 'Call');
     }
   }
 
@@ -716,10 +761,7 @@ class _DrawPageState extends State<DrawPage> {
                                         _highestBet > 0 &&
                                         _playerBalance(player) >
                                             _highestBet - _playerBet(player),
-                                    canCall:
-                                        _highestBet > _playerBet(player) &&
-                                        _playerBalance(player) >=
-                                            _highestBet - _playerBet(player),
+                                    canCall: _highestBet > _playerBet(player),
                                     canCheck: _highestBet == _playerBet(player),
                                     recommendedBet: _teachModeRecommendation(
                                       player,

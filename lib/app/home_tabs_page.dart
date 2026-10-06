@@ -43,11 +43,16 @@ class HomeTabsPage extends StatefulWidget {
 }
 
 class _HomeTabsPageState extends State<HomeTabsPage> {
-  int _numberOfPlayers = 5;
-  int _initialBankAmount = 1000;
-  int _anteAmount = 2;
+  static const _defaultNumberOfPlayers = 5;
+  static const _defaultInitialBankAmount = 1000;
+  static const _defaultAnteAmount = 2;
+
+  int _numberOfPlayers = _defaultNumberOfPlayers;
+  int _initialBankAmount = _defaultInitialBankAmount;
+  int _anteAmount = _defaultAnteAmount;
   int _maxCardsToDraw = 5;
   bool _teachMode = false;
+  int _fundsResetToken = 0;
 
   /// Edits game settings atomically after every field passes validation.
   ///
@@ -60,115 +65,130 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
     var anteAmountText = '$_anteAmount';
     var maxCardsToDrawText = '$_maxCardsToDraw';
     var teachMode = _teachMode;
+    var resetFunds = false;
 
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           title: const Text('Settings'),
-          content: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  key: const ValueKey('number-of-players-field'),
-                  initialValue: playerCountText,
-                  decoration: const InputDecoration(
-                    labelText: 'Number of players (2-5)',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: (value) => playerCountText = value,
-                  validator: (value) {
-                    final playerCount = int.tryParse(value ?? '');
-                    if (playerCount == null ||
-                        playerCount < 2 ||
-                        playerCount > 5) {
-                      return 'Enter a number from 2 to 5';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  key: const ValueKey('initial-bank-amount-field'),
-                  initialValue: bankAmountText,
-                  decoration: const InputDecoration(
-                    labelText: 'Initial bank amount',
-                    prefixText: r'$',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: (value) => bankAmountText = value,
-                  validator: (value) {
-                    final bankAmount = int.tryParse(value ?? '');
-                    if (bankAmount == null || bankAmount <= 0) {
-                      return 'Enter an amount greater than 0';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  key: const ValueKey('ante-amount-field'),
-                  initialValue: anteAmountText,
-                  decoration: const InputDecoration(
-                    labelText: 'Ante',
-                    prefixText: r'$',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: (value) => anteAmountText = value,
-                  validator: (value) {
-                    final anteAmount = int.tryParse(value ?? '');
-                    if (anteAmount == null || anteAmount <= 0) {
-                      return 'Enter an ante greater than 0';
-                    }
-                    final bankAmount = int.tryParse(bankAmountText);
-                    if (bankAmount != null && anteAmount > bankAmount) {
-                      return 'Ante cannot exceed the initial bank';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  key: const ValueKey('max-cards-to-draw-field'),
-                  initialValue: maxCardsToDrawText,
-                  decoration: const InputDecoration(
-                    labelText: 'Maximum cards to draw (1-5)',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: (value) => maxCardsToDrawText = value,
-                  validator: (value) {
-                    final maxCards = int.tryParse(value ?? '');
-                    if (maxCards == null || maxCards < 1 || maxCards > 5) {
-                      return 'Enter a number from 1 to 5';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Teach Mode'),
-                    SegmentedButton<bool>(
-                      key: const ValueKey('teach-mode-selector'),
-                      segments: const [
-                        ButtonSegment(value: true, label: Text('On')),
-                        ButtonSegment(value: false, label: Text('Off')),
-                      ],
-                      selected: {teachMode},
-                      onSelectionChanged: (selection) {
-                        setDialogState(() => teachMode = selection.single);
-                      },
+          content: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    key: const ValueKey('number-of-players-field'),
+                    initialValue: playerCountText,
+                    decoration: const InputDecoration(
+                      labelText: 'Number of players (2-5)',
                     ),
-                  ],
-                ),
-              ],
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) => playerCountText = value,
+                    validator: (value) {
+                      final playerCount = int.tryParse(value ?? '');
+                      if (playerCount == null ||
+                          playerCount < 2 ||
+                          playerCount > 5) {
+                        return 'Enter a number from 2 to 5';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    key: const ValueKey('initial-bank-amount-field'),
+                    initialValue: bankAmountText,
+                    decoration: const InputDecoration(
+                      labelText: 'Initial bank amount',
+                      prefixText: r'$',
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) => bankAmountText = value,
+                    validator: (value) {
+                      final bankAmount = int.tryParse(value ?? '');
+                      if (bankAmount == null || bankAmount <= 0) {
+                        return 'Enter an amount greater than 0';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    key: const ValueKey('ante-amount-field'),
+                    initialValue: anteAmountText,
+                    decoration: const InputDecoration(
+                      labelText: 'Ante',
+                      prefixText: r'$',
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) => anteAmountText = value,
+                    validator: (value) {
+                      final anteAmount = int.tryParse(value ?? '');
+                      if (anteAmount == null || anteAmount <= 0) {
+                        return 'Enter an ante greater than 0';
+                      }
+                      final bankAmount = int.tryParse(bankAmountText);
+                      if (bankAmount != null && anteAmount > bankAmount) {
+                        return 'Ante cannot exceed the initial bank';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    key: const ValueKey('max-cards-to-draw-field'),
+                    initialValue: maxCardsToDrawText,
+                    decoration: const InputDecoration(
+                      labelText: 'Maximum cards to draw (1-5)',
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) => maxCardsToDrawText = value,
+                    validator: (value) {
+                      final maxCards = int.tryParse(value ?? '');
+                      if (maxCards == null || maxCards < 1 || maxCards > 5) {
+                        return 'Enter a number from 1 to 5';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton.icon(
+                    key: const ValueKey('reset-funds-button'),
+                    onPressed: () {
+                      setDialogState(() {
+                        bankAmountText = '$_defaultInitialBankAmount';
+                        anteAmountText = '$_defaultAnteAmount';
+                        resetFunds = true;
+                      });
+                    },
+                    icon: const Icon(Icons.restart_alt),
+                    label: const Text('Reset funds to defaults'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Teach Mode'),
+                      SegmentedButton<bool>(
+                        key: const ValueKey('teach-mode-selector'),
+                        segments: const [
+                          ButtonSegment(value: true, label: Text('On')),
+                          ButtonSegment(value: false, label: Text('Off')),
+                        ],
+                        selected: {teachMode},
+                        onSelectionChanged: (selection) {
+                          setDialogState(() => teachMode = selection.single);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -182,12 +202,23 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                   return;
                 }
                 setState(() {
-                  _numberOfPlayers = int.parse(playerCountText);
+                  _numberOfPlayers = resetFunds
+                      ? _defaultNumberOfPlayers
+                      : int.parse(playerCountText);
                   _initialBankAmount = int.parse(bankAmountText);
                   _anteAmount = int.parse(anteAmountText);
                   _maxCardsToDraw = int.parse(maxCardsToDrawText);
                   _teachMode = teachMode;
                 });
+                if (resetFunds) {
+                  _fundsResetToken++;
+                  final resetStateStore =
+                      widget.fiveCardStateStore ??
+                      SharedPreferencesFiveCardStateStore();
+                  resetStateStore.remove();
+                  Navigator.of(dialogContext).pop();
+                  return;
+                }
                 Navigator.of(dialogContext).pop();
               },
               child: const Text('Save'),
@@ -254,6 +285,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
             ),
             CardTableSurface(
               child: FiveCardPage(
+                key: ValueKey('five-card-$_fundsResetToken'),
                 cardBack: cardBackDesigns[widget.selectedCardBackIndex],
                 patternIndex: widget.selectedCardBackIndex,
                 playerCount: _numberOfPlayers,
@@ -264,6 +296,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
               ),
             ),
             DrawPage(
+              key: ValueKey('draw-$_fundsResetToken'),
               cardBack: cardBackDesigns[widget.selectedCardBackIndex],
               patternIndex: widget.selectedCardBackIndex,
               playerCount: _numberOfPlayers,
@@ -273,6 +306,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
               teachMode: _teachMode,
             ),
             StudPage(
+              key: ValueKey('stud-$_fundsResetToken'),
               cardBack: cardBackDesigns[widget.selectedCardBackIndex],
               patternIndex: widget.selectedCardBackIndex,
               playerCount: _numberOfPlayers,
@@ -281,6 +315,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
               teachMode: _teachMode,
             ),
             StudPage(
+              key: ValueKey('stud7-$_fundsResetToken'),
               cardBack: cardBackDesigns[widget.selectedCardBackIndex],
               patternIndex: widget.selectedCardBackIndex,
               playerCount: _numberOfPlayers,
@@ -290,6 +325,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
               teachMode: _teachMode,
             ),
             HoldemPage(
+              key: ValueKey('holdem-$_fundsResetToken'),
               cardBack: cardBackDesigns[widget.selectedCardBackIndex],
               patternIndex: widget.selectedCardBackIndex,
               playerCount: _numberOfPlayers,
