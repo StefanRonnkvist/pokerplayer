@@ -400,7 +400,11 @@ class _FiveCardPageState extends State<FiveCardPage> {
         );
       case 'Call':
         final callAmount = math.max(0, _highestWager - _playerBet(player));
-        if (callAmount == 0 || callAmount > _playerBalance(player)) {
+        if (callAmount == 0) {
+          return;
+        }
+        if (callAmount > _playerBalance(player)) {
+          await _showInsufficientFundsDialog(player, callAmount);
           return;
         }
         _commitWager(player, callAmount, action);
@@ -418,6 +422,47 @@ class _FiveCardPageState extends State<FiveCardPage> {
         _continueAfterUserAction(player);
         _schedulePersistence();
     }
+  }
+
+  Future<void> _showInsufficientFundsDialog(int player, int callAmount) async {
+    final choice = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Not enough funds to call'),
+        content: Text(
+          'Player $player needs $callAmount to call, but has '
+          '\$${_playerBalance(player)} available.',
+        ),
+        actions: [
+          TextButton(
+            key: const ValueKey('insufficient-funds-cancel'),
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            key: const ValueKey('insufficient-funds-add-bank'),
+            onPressed: () => Navigator.of(dialogContext).pop('add-bank'),
+            child: Text('Add ${widget.initialBankAmount} bank'),
+          ),
+          FilledButton(
+            key: const ValueKey('insufficient-funds-offer-call'),
+            onPressed: () => Navigator.of(dialogContext).pop('offer-call'),
+            child: Text('Add funds to call ($callAmount)'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || choice == null) {
+      return;
+    }
+    setState(() {
+      playerBalances[player] = _playerBalance(player) +
+          (choice == 'add-bank' ? widget.initialBankAmount : callAmount);
+    });
+    if (choice == 'offer-call') {
+      _commitWager(player, callAmount, 'Call');
+    }
+    _schedulePersistence();
   }
 
   int get _highestWager => playerBets.values.fold(0, math.max);
