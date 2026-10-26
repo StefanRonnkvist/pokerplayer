@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
                 width: 176,
                 height: 176,
                 child: Image(
-                  image: AssetImage('web/icons/icon-512.png'),
+                  image: AssetImage('assets/play_store_512.png'),
                   fit: BoxFit.contain,
                 ),
               ),

@@ -218,5 +218,24 @@
       },
       "problemMatcher": []
     },
+    {
+      "label": "Git: Commit and Push All",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/git-commit-push.ps1",
+        "-Message",
+        "Update project"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
   ]
 }
