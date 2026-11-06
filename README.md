@@ -1,6 +1,6 @@
 # Play Poker
 
-Play Poker is a Flutter poker suite with five game variants, configurable virtual-chip tables, and computer-controlled opponents. Player 1 is the user in every game, and the remaining seats are automated.
+Play Poker is a Flutter poker app with five game variants, configurable virtual-chip tables, and computer-controlled opponents. Player 1 is always you; the remaining seats are automated. The app supports Android, web, and Windows release builds.
 
 ## Poker Games
 
@@ -27,10 +27,10 @@ Play Poker is a Flutter poker suite with five game variants, configurable virtua
 
 - **Card Backs:** Select the design used by face-down cards in every game.
 - **Five Card, Draw, Stud, Stud7, Hold'em:** Open a poker table for that variant.
-- **Information:** Contact the developer and review submitted inquiries. These features require an internet connection.
-- **Help:** Read in-app rules and control guidance.
+- **Information:** Use the Contact and Inquiries sub-tabs to contact the developer and review submitted inquiries. These features require an internet connection.
+- **Help:** Read in-app game rules and control guidance.
 
-Use the Settings button in the app bar to configure players, bankrolls, antes, Draw replacements, and Teach Mode. Suggested bets are guidance rather than a guarantee of winning.
+Use the Settings button in the app bar to configure 2-5 players, starting virtual-chip bank, ante, the maximum Draw replacements (1-5), and Teach Mode. Defaults are five players, a 1,000-chip bank, a 2-chip ante, and up to five Draw replacements. Suggested bets are guidance rather than a guarantee of winning. Game tables adapt to the available screen size and include zoom controls.
 
 Select **Deal** to begin a hand and post the ante. Available betting actions are highlighted: **Bet** opens the wagering, **Raise** increases it, **Call** matches it, **Check** passes when no call is required, and **Fold** leaves the hand. Wagers cannot exceed the player's available virtual-chip bank.
 
@@ -100,14 +100,14 @@ For an Android APK build that first clears common locked build outputs:
 ./scripts/build-apk-release.ps1 -KillFlutterProcesses
 ```
 
-The app version is defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format.
+The current app version is **0.1.23+24**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
 
 ## Store Listing
 
-Google Play descriptions are maintained in:
+Google Play copy is maintained in `store_listing/`:
 
-- `store_listing/google_play_short_synopsis.txt`
-- `store_listing/google_play_long_synopsis.txt`
+- `google_play_short_synopsis.txt` (short description)
+- `google_play_long_synopsis.txt` (full description)
 
 ## Project Layout
 
@@ -122,7 +122,7 @@ Google Play descriptions are maintained in:
 - `lib/shared/` contains shared card models and presentation widgets.
 - `lib/features/information/` contains the top-level Information tab.
 - `lib/contact/` contains the reusable contact form and inquiry views.
-- `test/shared/` contains focused tests for shared domain behavior.
+- `test/` contains focused tests for app navigation, game features, and shared domain behavior.
 - `scripts/` contains maintenance, versioning, and release helpers.
 - `tool/` contains additional release automation.
 - `store_listing/` contains publishing copy for the app stores.

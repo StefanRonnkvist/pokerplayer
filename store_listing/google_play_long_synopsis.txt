@@ -1,4 +1,4 @@
-Play Poker brings five poker variants together in one virtual-chip table. Take the Player 1 seat, configure 2-5 players, and play against computer-controlled opponents that bet, call, raise, check, and fold.
+Play Poker brings five poker variants together with virtual chips and computer-controlled opponents. Take the Player 1 seat and configure a table for 2-5 players. Choose your action as the hand develops, then compare cards at showdown—no real-money wagering or prizes.
 
 FIVE CARD
 
@@ -22,19 +22,18 @@ Receive two private hole cards and play four betting rounds: pre-flop, flop, tur
 
 CUSTOMIZE AND PLAY
 
-- Choose 2-5 players
-- Set the starting virtual-chip bank and ante
-- Set the maximum Draw replacements
+- Choose 2-5 players and set the starting virtual-chip bank and ante
+- Set the maximum Draw replacements (1-5)
 - Turn on Teach Mode for Player 1 betting suggestions
-- Choose from 10 remembered card-back designs
-- Watch bankrolls and wagers as stacks of chip images
+- Track bankrolls and wagers with animated chip stacks
 - Continue watching computer play after you fold
-- Split pots automatically when hands tie
+- Award the pot or split it automatically when hands tie
+- Choose from 10 remembered card-back designs
+- Zoom the responsive game table to suit your screen
+The Card Backs tab changes the design used for face-down cards. Help explains the games and controls. Information includes Contact and Inquiries tools and requires an internet connection.
 
 Teach Mode estimates a suggested bet from the current hand, opponents, pot, call cost, and available bank. Suggestions are guidance, not a guarantee of winning. Wagers cannot exceed the player's available virtual-chip bank.
 
 Play Poker uses a standard 52-card deck and recognizes hands from High Card through Straight Flush. Responsive tables support phones, tablets, and larger screens, while the tab bar scrolls when space is limited.
 
-The Information tab provides developer contact and inquiry tools when an internet connection is available. Built-in Help explains every game and shared control.
-
-Play Poker is a virtual poker game and does not support real-money wagering or prizes.
+The Five Card table restores its current hand and progress when you return; other game tables start fresh when their page is recreated. All chips are virtual, and Play Poker does not support real-money wagering or prizes.

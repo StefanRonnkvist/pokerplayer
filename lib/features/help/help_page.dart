@@ -59,15 +59,25 @@ class HelpPage extends StatelessWidget {
           'This table uses the configured ante rather than blinds.',
     ),
     (
+      icon: Icons.emoji_events_outlined,
+      title: 'Hand Rankings',
+      description:
+          'From strongest to weakest: Straight Flush, Four of a Kind, Full '
+          'House, Flush, Straight, Three of a Kind, Two Pair, One Pair, and '
+          'High Card. Hands in the same category use their card ranks as '
+          'tie-breakers; equal hands split the pot.',
+    ),
+    (
       icon: Icons.settings_outlined,
       title: 'Settings and Betting',
       description:
           'Use Settings to choose 2-5 players, the starting bank, the ante, '
-          'and the maximum Draw replacements. Player 1 is always you. Bet '
-          'opens the wagering, Raise increases it, Call matches it, and Fold '
-          'leaves the hand. Check passes without wagering when no call is '
-          'required. Unavailable actions are disabled, and computer play '
-          'continues if you fold.',
+          'and the maximum Draw replacements (1-5). Defaults are five '
+          'players, a 1,000-chip bank, a 2-chip ante, and five replacements. '
+          'Player 1 is always you. Bet opens the wagering, Raise increases '
+          'it, Call matches it, and Fold leaves the hand. Check passes '
+          'without wagering when no call is required. Unavailable actions '
+          'are disabled, and computer play continues if you fold.',
     ),
     (
       icon: Icons.school_outlined,
@@ -125,11 +135,12 @@ class HelpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Choose a game tab, select Deal to start, and use the '
+                    'Choose a game tab and select Deal to start. Use the '
                     'highlighted betting actions when it is your turn. Open '
                     'Settings from the app bar to configure the table. Swipe '
                     'the tab bar horizontally when a tab is outside the '
-                    'visible area.',
+                    'visible area; use the table zoom controls to resize the '
+                    'game display.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
