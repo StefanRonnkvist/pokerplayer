@@ -74,10 +74,12 @@ class HelpPage extends StatelessWidget {
           'Use Settings to choose 2-5 players, the starting bank, the ante, '
           'and the maximum Draw replacements (1-5). Defaults are five '
           'players, a 1,000-chip bank, a 2-chip ante, and five replacements. '
-          'Player 1 is always you. Bet opens the wagering, Raise increases '
-          'it, Call matches it, and Fold leaves the hand. Check passes '
-          'without wagering when no call is required. Unavailable actions '
-          'are disabled, and computer play continues if you fold.',
+          'Reset funds to defaults restores five players, a 1,000-chip bank, '
+          'and a 2-chip ante, and clears the saved Five Card hand. Player 1 is '
+          'you. Bet opens the wagering, Raise increases it, Call matches it, '
+          'and Fold leaves the hand. Check passes without wagering when no '
+          'call is required. Unavailable actions are disabled, and computer '
+          'play continues if you fold.',
     ),
     (
       icon: Icons.school_outlined,
@@ -101,14 +103,19 @@ class HelpPage extends StatelessWidget {
       icon: Icons.info_outline,
       title: 'Information',
       description:
-          'Use Contact to send a message to the developer. Open Inquiries to '
-          'view submitted messages. These features require an internet '
+          'Use Contact to send a question with your name, return email, and '
+          'message. The app adds package, version, platform, orientation, and '
+          'screen-layout details to the inquiry. Open Inquiries to view '
+          'submissions for this app package. Both features require an internet '
           'connection.',
     ),
     (
       icon: Icons.help_outline,
       title: 'Help',
-      description: 'Review the purpose and controls of every tab in the app.',
+      description:
+          'Review the purpose and controls of every tab in the app. Game '
+          'tables use virtual chips only and do not offer real-money wagering '
+          'or prizes.',
     ),
   ];
 
@@ -135,12 +142,13 @@ class HelpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Choose a game tab and select Deal to start. Use the '
+                    'Choose a game tab and select Deal to start. Player 1 is '
+                    'you; the remaining seats are computer players. Use the '
                     'highlighted betting actions when it is your turn. Open '
-                    'Settings from the app bar to configure the table. Swipe '
-                    'the tab bar horizontally when a tab is outside the '
-                    'visible area; use the table zoom controls to resize the '
-                    'game display.',
+                    'Settings from the app bar to configure the table or reset '
+                    'funds. Swipe the tab bar horizontally when a tab is '
+                    'outside the visible area; use the table zoom controls to '
+                    'resize the game display.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

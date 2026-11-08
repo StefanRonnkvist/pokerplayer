@@ -30,7 +30,7 @@ Play Poker is a Flutter poker app with five game variants, configurable virtual-
 - **Information:** Use the Contact and Inquiries sub-tabs to contact the developer and review submitted inquiries. These features require an internet connection.
 - **Help:** Read in-app game rules and control guidance.
 
-Use the Settings button in the app bar to configure 2-5 players, starting virtual-chip bank, ante, the maximum Draw replacements (1-5), and Teach Mode. Defaults are five players, a 1,000-chip bank, a 2-chip ante, and up to five Draw replacements. Suggested bets are guidance rather than a guarantee of winning. Game tables adapt to the available screen size and include zoom controls.
+Use the Settings button in the app bar to configure 2-5 players, starting virtual-chip bank, ante, the maximum Draw replacements (1-5), and Teach Mode. Defaults are five players, a 1,000-chip bank, a 2-chip ante, and up to five Draw replacements. Settings apply to the game tables; **Reset funds to defaults** also resets the player count, bank, and ante and clears the saved Five Card hand. Suggested bets are guidance rather than a guarantee of winning. Game tables adapt to the available screen size and include zoom controls.
 
 Select **Deal** to begin a hand and post the ante. Available betting actions are highlighted: **Bet** opens the wagering, **Raise** increases it, **Call** matches it, **Check** passes when no call is required, and **Fold** leaves the hand. Wagers cannot exceed the player's available virtual-chip bank.
 
@@ -100,7 +100,7 @@ For an Android APK build that first clears common locked build outputs:
 ./scripts/build-apk-release.ps1 -KillFlutterProcesses
 ```
 
-The current app version is **0.1.23+24**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
+The current app version is **0.1.24+25**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
 
 ## Store Listing
 

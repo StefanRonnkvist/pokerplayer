@@ -1,1 +1,1 @@
-Play five poker games with virtual chips, computer opponents, and betting tips.
+Play five poker games with virtual chips, computer opponents, and helpful tips.

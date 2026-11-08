@@ -28,9 +28,10 @@ CUSTOMIZE AND PLAY
 - Track bankrolls and wagers with animated chip stacks
 - Continue watching computer play after you fold
 - Award the pot or split it automatically when hands tie
-- Choose from 10 remembered card-back designs
+- Choose from 10 card-back designs, remembered between sessions
 - Zoom the responsive game table to suit your screen
-The Card Backs tab changes the design used for face-down cards. Help explains the games and controls. Information includes Contact and Inquiries tools and requires an internet connection.
+- Reset the player count, bank, and ante to defaults when you want a fresh start
+The default table has five players, a 1,000-chip bank, a 2-chip ante, and a five-card Draw limit. Resetting funds also clears the saved Five Card hand. The Card Backs tab changes the design used for face-down cards. Help explains the games and controls. Information includes Contact and Inquiries tools, which require an internet connection. Contact submissions include app and device-layout details; Inquiries shows submissions for the current app package.
 
 Teach Mode estimates a suggested bet from the current hand, opponents, pot, call cost, and available bank. Suggestions are guidance, not a guarantee of winning. Wagers cannot exceed the player's available virtual-chip bank.
 
