@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Applies the shared felt background and high-contrast table theme.
 class CardTableSurface extends StatelessWidget {

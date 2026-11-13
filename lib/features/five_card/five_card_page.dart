@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:playing_cards/playing_cards.dart';
 
@@ -9,6 +9,7 @@ import '../../app/shared/widgets/betting_actions.dart';
 import '../../app/shared/widgets/game_deck_button_styles.dart';
 import '../../shared/cards/card_back.dart';
 import '../../shared/cards/playing_card_face.dart';
+import '../../shared/computer_win_celebration.dart';
 import 'five_card_state.dart';
 import 'models/poker_hand.dart';
 import 'persistence/five_card_state_store.dart';
@@ -64,6 +65,8 @@ class _FiveCardPageState extends State<FiveCardPage> {
   final pendingComputerPlayers = <int>[];
   final revealedPlayerNumbers = <int>{};
   String? payoutMessage;
+  String? computerCelebration;
+  final computerWinStreaks = <int, int>{};
   bool potAwarded = false;
   int nextCardIndex = 0;
   bool isDealing = false;
@@ -192,6 +195,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
     pendingRaiseResponders.clear();
     pendingComputerPlayers.clear();
     payoutMessage = null;
+    computerCelebration = null;
     potAwarded = false;
     computerTurnRunning = false;
     bettingRoundStarted = false;
@@ -369,6 +373,12 @@ class _FiveCardPageState extends State<FiveCardPage> {
     payoutMessage = winners.length == 1
         ? 'Player ${winners.single} wins \$$pot'
         : 'Players ${winners.join(' & ')} split \$$pot';
+    computerCelebration = recordComputerHandWinners(
+      computerWinStreaks,
+      winners,
+      computersEnabled: widget.automateComputerPlayers,
+      playerCount: widget.playerCount,
+    );
   }
 
   /// Validates and dispatches a player's action for the current betting turn.
@@ -881,7 +891,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
                   ),
                   const SizedBox(height: _spacing),
                   SizedBox(
-                    height: 72,
+                    height: computerCelebration == null ? 72 : 104,
                     child: TableWagers(
                       playerCount: widget.playerCount,
                       wagers: playerWagers,
@@ -890,6 +900,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
                           ? 0
                           : _highestWager - _playerBet(_activeRaiseResponder!),
                       payoutMessage: payoutMessage,
+                      celebrationMessage: computerCelebration,
                     ),
                   ),
                   const SizedBox(height: _spacing),

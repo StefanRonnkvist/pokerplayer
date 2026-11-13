@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:playing_cards/playing_cards.dart';
 
 class PlayingCardFace extends StatelessWidget {

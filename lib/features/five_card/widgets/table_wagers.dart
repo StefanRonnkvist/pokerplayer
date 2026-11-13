@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'chip_stacks.dart';
 
@@ -10,6 +10,7 @@ class TableWagers extends StatelessWidget {
     required this.activeResponder,
     required this.callAmount,
     required this.payoutMessage,
+    this.celebrationMessage,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class TableWagers extends StatelessWidget {
   final int? activeResponder;
   final int callAmount;
   final String? payoutMessage;
+  final String? celebrationMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,28 @@ class TableWagers extends StatelessWidget {
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0,
+              ),
+            ),
+          if (activeResponder == null && celebrationMessage != null)
+            Container(
+              key: const ValueKey('computer-celebration'),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE082),
+                border: Border.all(color: const Color(0xFF6D3E00), width: 2),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
+                  BoxShadow(color: Color(0x88000000), offset: Offset(2, 2)),
+                ],
+              ),
+              child: Text(
+                celebrationMessage!,
+                style: const TextStyle(
+                  color: Color(0xFF4E2600),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0,
+                ),
               ),
             ),
           Expanded(

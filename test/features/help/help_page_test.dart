@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:playpoker/features/help/help_page.dart';
 
@@ -31,7 +31,9 @@ void main() {
       expect(find.text(title), findsOneWidget);
     }
     expect(find.textContaining('pre-flop'), findsOneWidget);
+    expect(find.textContaining('Player 1 is you'), findsOneWidget);
     expect(find.textContaining('computer play continues'), findsOneWidget);
+    expect(find.textContaining('Reset funds to defaults'), findsOneWidget);
     expect(
       find.textContaining('Check passes without wagering'),
       findsOneWidget,
@@ -41,6 +43,10 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('guidance, not a guarantee'), findsOneWidget);
-    expect(find.textContaining('no real-money wagering'), findsOneWidget);
+    expect(
+      find.textContaining('package, version, platform, orientation'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('no real-money wagering'), findsNWidgets(2));
   });
 }

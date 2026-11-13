@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Named colors used to paint one selectable card-back design.
 typedef CardBackDesign = ({String name, Color color, Color accent});

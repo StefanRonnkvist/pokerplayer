@@ -15,6 +15,7 @@ Play Poker is a Flutter poker app with five game variants, configurable virtual-
 - Configure 2-5 players, starting bank, and ante for the poker tables.
 - Set the maximum number of replacement cards for Draw.
 - Bet, raise, call, check, or fold with computer opponents that consider hand strength and pot odds.
+- See a playful random quip when a computer opponent wins two hands in a row outright; ties and Player 1 wins break the streak.
 - Enable Teach Mode to see a suggested bet for Player 1 based on the current hand, opponents, pot, call cost, and available bank.
 - Award the complete virtual-chip pot to the winner or split it between tied winners.
 - Continue computer play automatically after Player 1 folds.

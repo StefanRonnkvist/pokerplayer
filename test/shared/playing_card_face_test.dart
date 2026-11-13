@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:playing_cards/playing_cards.dart';
 import 'package:playpoker/shared/cards/playing_card_face.dart';

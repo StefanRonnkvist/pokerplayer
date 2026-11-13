@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../shared/cards/card_back.dart';
 import '../stud/stud_page.dart';

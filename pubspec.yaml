@@ -1,7 +1,7 @@
 name: playpoker
 description: "Five-card poker dealing and hand ranking tools."
 publish_to: 'none'
-version: 0.1.24+25
+version: 0.1.25+26
 
 environment:
   sdk: ^3.13.2
@@ -15,6 +15,7 @@ dependencies:
   playing_cards: ^0.4.1+11
   shared_preferences: ^2.5.5
 
+  material_ui: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -33,4 +34,4 @@ flutter:
 
 msix_config:
   display_name: Play Poker
-  msix_version: 0.1.24.25
+  msix_version: 0.1.25.26

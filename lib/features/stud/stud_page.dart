@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:playing_cards/playing_cards.dart';
 
@@ -9,6 +9,7 @@ import '../../app/shared/widgets/betting_actions.dart';
 import '../../app/shared/widgets/game_deck_button_styles.dart';
 import '../../shared/cards/card_back.dart';
 import '../../shared/cards/playing_card_face.dart';
+import '../../shared/computer_win_celebration.dart';
 import '../five_card/models/poker_hand.dart';
 import '../five_card/strategy/computer_strategy.dart';
 import '../five_card/widgets/chip_stacks.dart';
@@ -63,6 +64,8 @@ class _StudPageState extends State<StudPage> {
   bool computerTurnRunning = false;
   bool showdown = false;
   String? payoutMessage;
+  String? computerCelebration;
+  final computerWinStreaks = <int, int>{};
 
   @override
   void initState() {
@@ -111,6 +114,7 @@ class _StudPageState extends State<StudPage> {
     computerTurnRunning = false;
     showdown = false;
     payoutMessage = null;
+    computerCelebration = null;
   }
 
   void _shuffle() {
@@ -551,6 +555,12 @@ class _StudPageState extends State<StudPage> {
       payoutMessage = winners.length == 1
           ? 'Player ${winners.single} wins \$$pot'
           : 'Players ${winners.join(' & ')} split \$$pot';
+      computerCelebration = recordComputerHandWinners(
+        computerWinStreaks,
+        winners,
+        computersEnabled: widget.automateComputerPlayers,
+        playerCount: widget.playerCount,
+      );
       showdown = true;
     });
   }
@@ -703,7 +713,7 @@ class _StudPageState extends State<StudPage> {
               ),
               const SizedBox(height: 6),
               SizedBox(
-                height: 72,
+                height: computerCelebration == null ? 72 : 104,
                 child: TableWagers(
                   playerCount: widget.playerCount,
                   wagers: playerWagers,
@@ -712,6 +722,7 @@ class _StudPageState extends State<StudPage> {
                       ? 0
                       : _highestBet - _playerBet(_activeRaiseResponder!),
                   payoutMessage: payoutMessage,
+                  celebrationMessage: computerCelebration,
                 ),
               ),
               const SizedBox(height: 6),
