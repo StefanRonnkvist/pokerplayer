@@ -12,7 +12,7 @@ FIVE-CARD STUD
 
 Play five betting streets as the cards arrive. The first and fifth cards are down, while cards two through four are visible. Tap your down cards to view them and follow each opponent's exposed cards and wagers.
 
-SEVEN-CARD STUD
+SEVEN-CARD STUD (STUD7)
 
 Play seven betting streets with the first and seventh cards down and five cards visible. At showdown, Play Poker evaluates the best five-card combination from each active player's seven cards.
 

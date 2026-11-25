@@ -3,9 +3,9 @@ param(
 )
 
 # Audits the user-facing documentation against the app it describes:
-#   store_listing/google_play_short_description.txt
-#   store_listing/google_play_full_description.txt
-#   lib/features/world_map/presentation/help_panel.dart  (the in-app Help tab)
+#   store_listing/google_play_short_synopsis.txt
+#   store_listing/google_play_long_synopsis.txt
+#   lib/features/help/help_page.dart  (the in-app Help tab)
 #   README.md
 #
 # The facts are read out of the source so the docs can never quietly drift from
@@ -24,23 +24,19 @@ function Get-RequiredFile([string]$relative) {
     return $path
 }
 
-function Get-DocText([string]$relative) {
-    return (Get-Content -Path (Get-RequiredFile $relative) -Raw)
-}
-
 $pubspecPath = Get-RequiredFile 'pubspec.yaml'
 $readmePath = Get-RequiredFile 'README.md'
-$shortPath = Get-RequiredFile 'store_listing/google_play_short_description.txt'
-$fullPath = Get-RequiredFile 'store_listing/google_play_full_description.txt'
-$helpPath = Get-RequiredFile 'lib/features/world_map/presentation/help_panel.dart'
-$controlTabsPath = Get-RequiredFile 'lib/features/world_map/presentation/map_control_tabs.dart'
+$shortPath = Get-RequiredFile 'store_listing/google_play_short_synopsis.txt'
+$fullPath = Get-RequiredFile 'store_listing/google_play_long_synopsis.txt'
+$helpPath = Get-RequiredFile 'lib/features/help/help_page.dart'
+$tabsPath = Get-RequiredFile 'lib/app/home_tabs_page.dart'
 
 $pubspec = Get-Content -Path $pubspecPath -Raw
 $readme = Get-Content -Path $readmePath -Raw
 $short = Get-Content -Path $shortPath -Raw
 $full = Get-Content -Path $fullPath -Raw
 $help = Get-Content -Path $helpPath -Raw
-$controlTabs = Get-Content -Path $controlTabsPath -Raw
+$tabsSource = Get-Content -Path $tabsPath -Raw
 
 $failures = New-Object System.Collections.Generic.List[string]
 $checks = New-Object System.Collections.Generic.List[string]
@@ -61,30 +57,27 @@ if ($pubspec -match '(?m)^version:\s*([0-9]+\.[0-9]+\.[0-9]+\+[0-9]+)\s*$') {
     throw 'Could not read the version from pubspec.yaml'
 }
 
-# The top-level navigation tabs are the Tab(text/Text) labels declared in the
-# control tab bar. The settings gear opens a menu rather than a tab, so it is
-# not one of them.
+# The top-level navigation tabs are the labels declared in HomeTabsPage. Each
+# label sits on its own line, optionally wrapped in single or double quotes, so
+# the labels are read line-wise rather than with one big regex.
 $tabBlock = [regex]::Match(
-    $controlTabs,
-    "desktop-navigation'.*?tabs:\s*const\s*\[(?<tabs>.*?)\]\s*,?\s*\);",
+    $tabsSource,
+    'static const _tabLabels = \[(?<tabs>.*?)\];',
     [System.Text.RegularExpressions.RegexOptions]::Singleline
 )
 if (-not $tabBlock.Success) {
-    throw 'Could not read the control tab bar from map_control_tabs.dart'
+    throw 'Could not read the tab labels from home_tabs_page.dart'
 }
-$appTabs = [regex]::Matches($tabBlock.Groups['tabs'].Value, "Text\('(?<label>[^']+)'\)") |
-    ForEach-Object { $_.Groups['label'].Value }
-
-$subBlock = [regex]::Match(
-    $controlTabs,
-    "map-sub-tabs'\).*?tabs:\s*const\s*\[(?<tabs>.*?)\]\s*,?\s*\);",
-    [System.Text.RegularExpressions.RegexOptions]::Singleline
-)
-if (-not $subBlock.Success) {
-    throw 'Could not read the map sub-tab bar from map_control_tabs.dart'
+$appTabs = @()
+foreach ($line in ($tabBlock.Groups['tabs'].Value -split '\r?\n')) {
+    $trim = $line.Trim()
+    if ($trim -eq '' -or $trim.StartsWith('//')) { continue }
+    $trim = $trim.TrimEnd(',')
+    if ($trim -match '^"(.*)"$') { $trim = $Matches[1] }
+    elseif ($trim -match "^'(.*)'$") { $trim = $Matches[1] }
+    if ($trim -ne '') { $appTabs += $trim }
 }
-$appSubTabs = [regex]::Matches($subBlock.Groups['tabs'].Value, "Tab\(text:\s*'(?<label>[^']+)'\)") |
-    ForEach-Object { $_.Groups['label'].Value }
+$appTabs = @($appTabs | Select-Object -Unique)
 
 # --- 1. Every navigation tab is documented in the README ---------------------
 
@@ -114,32 +107,34 @@ $storeDetail = if ($missingInStore.Count -eq 0) {
 }
 Add-Check -name 'Store listing names every tab' -passed ($missingInStore.Count -eq 0) -detail $storeDetail
 
-# --- 3. The map sub-tabs are documented --------------------------------------
+# --- 3. The Help tab covers every navigation tab -----------------------------
 
-$missingSubTabs = @($appSubTabs | Where-Object { $readme -notmatch [regex]::Escape($_) })
-$subTabDetail = if ($missingSubTabs.Count -eq 0) {
-    "all $($appSubTabs.Count) sub-tabs are described"
+$titleQuote = [char]34
+$titleApos = [char]39
+$charClass = '[' + $titleQuote + $titleApos + ']'
+$notCharClass = '[^' + $titleQuote + $titleApos + '\r\n]'
+$helpTitlePattern = 'title:\s*' + $charClass + '(?<title>' + $notCharClass + '+?)' + $charClass + ','
+$helpSectionTitles = @([regex]::Matches($help, $helpTitlePattern) |
+    ForEach-Object { $_.Groups['title'].Value.Trim() })
+$missingInHelp = @($appTabs | Where-Object { $helpSectionTitles -notcontains $_ })
+$helpDetail = if ($missingInHelp.Count -eq 0) {
+    "every tab has a Help section"
 } else {
-    "missing: $($missingSubTabs -join ', ')"
+    "missing Help sections: $($missingInHelp -join ', ')"
 }
-Add-Check -name 'README documents every map sub-tab' -passed ($missingSubTabs.Count -eq 0) -detail $subTabDetail
-
-# --- 4. The Help tab covers every navigation tab -----------------------------
-
-$helpSectionTitles = [regex]::Matches($help, "title:\s*'(?<title>[^']+)'") |
-    ForEach-Object { $_.Groups['title'].Value }
 Add-Check -name 'Help tab has guidance sections' -passed ($helpSectionTitles.Count -ge 8) -detail (
     "$($helpSectionTitles.Count) sections: $($helpSectionTitles -join '; ')"
 )
+Add-Check -name 'Help tab covers every navigation tab' -passed ($missingInHelp.Count -eq 0) -detail $helpDetail
 
-# --- 5. The README names the store listing folder and the version ------------
+# --- 4. The README names the store listing folder and the version ------------
 
 Add-Check -name 'README points at the store listing copy' -passed ($readme -match 'store_listing/') `
     -detail 'README should name the store_listing/ folder'
 Add-Check -name 'README names the app version' -passed ($readme -match [regex]::Escape($appVersion)) `
     -detail "README should mention pubspec version $appVersion"
 
-# --- 6. Google Play field limits ---------------------------------------------
+# --- 5. Google Play field limits ---------------------------------------------
 
 $shortText = $short.Trim()
 Add-Check -name 'Short description fits Google Play' `
@@ -152,7 +147,7 @@ Add-Check -name 'Store listing copy is not empty' `
     -passed ($shortText.Length -gt 0 -and $full.Trim().Length -gt 0) `
     -detail 'both store listing files carry copy'
 
-# --- 7. The store listing must not contradict the app ------------------------
+# --- 6. The store listing must not contradict the app ------------------------
 
 # A stock Flutter project carries an android/, ios/, web/ and windows/ folder out
 # of the box, whether or not the app ships there. The platforms this app actually
@@ -198,7 +193,7 @@ if (-not (Test-Path $reportDirectory)) {
     New-Item -ItemType Directory -Path $reportDirectory -Force | Out-Null
 }
 $report = @(
-    "Airline Investor documentation audit"
+    'Play Poker documentation audit'
     "Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
     "App version: $appVersion"
     ''

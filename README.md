@@ -101,7 +101,7 @@ For an Android APK build that first clears common locked build outputs:
 ./scripts/build-apk-release.ps1 -KillFlutterProcesses
 ```
 
-The current app version is **0.1.24+25**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
+The current app version is **0.1.36+37**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
 
 ## Store Listing
 
