@@ -31,7 +31,7 @@ void main() {
       expect(find.text(title), findsOneWidget);
     }
     expect(find.textContaining('pre-flop'), findsOneWidget);
-    expect(find.textContaining('Player 1 is you'), findsOneWidget);
+    expect(find.textContaining('Choose a game tab and select Deal'), findsOneWidget);
     expect(find.textContaining('computer play continues'), findsOneWidget);
     expect(find.textContaining('Reset funds to defaults'), findsOneWidget);
     expect(
@@ -47,6 +47,9 @@ void main() {
       find.textContaining('package, version, platform, orientation'),
       findsOneWidget,
     );
-    expect(find.textContaining('no real-money wagering'), findsNWidgets(2));
+    expect(
+      find.textContaining('virtual chips only; there is no real-money'),
+      findsOneWidget,
+    );
   });
 }

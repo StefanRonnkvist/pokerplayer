@@ -8,6 +8,7 @@ import '../../app/shared/game_layout.dart';
 import '../../app/shared/widgets/betting_actions.dart';
 import '../../app/shared/widgets/game_deck_button_styles.dart';
 import '../../shared/cards/card_back.dart';
+import '../../shared/card_table_surface.dart';
 import '../../shared/cards/playing_card_face.dart';
 import '../../shared/computer_win_celebration.dart';
 import '../five_card/models/poker_hand.dart';
@@ -630,10 +631,12 @@ class _DrawPageState extends State<DrawPage> {
               .map((entry) => entry.key)
               .toList();
     final hasHand = playerHands.isNotEmpty;
-    return ColoredBox(
+    return CardTableSurface(
       key: const ValueKey('draw-page'),
       color: const Color(0xFF075B40),
-      child: SafeArea(
+      child: ColoredBox(
+        color: const Color(0xFF075B40),
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -792,6 +795,7 @@ class _DrawPageState extends State<DrawPage> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

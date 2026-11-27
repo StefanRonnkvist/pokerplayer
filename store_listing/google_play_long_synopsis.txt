@@ -6,7 +6,7 @@ Deal five cards to every player, complete the betting, and reveal the active han
 
 DRAW
 
-Play five-card draw with a configurable replacement limit. Complete the betting round, tap the cards you want to replace or stand pat, and compare the remaining hands at showdown. Computer players choose their own discards.
+Play five-card draw with a configurable replacement limit. Complete the betting round, tap the cards you want to replace and press Draw N, or stand pat to keep all five cards, then compare the remaining hands at showdown. Buttons stay visible on the felt even when disabled, and computer players choose their own discards.
 
 FIVE-CARD STUD
 

@@ -13,6 +13,8 @@ class CardTableSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const disabledFill = Color(0xFF9E9E9E);
+    const disabledText = Color(0xFF1B1B1B);
     final tableTheme = Theme.of(context).copyWith(
       textTheme: Theme.of(context).textTheme
           .apply(bodyColor: Colors.white, displayColor: Colors.white),
@@ -20,7 +22,24 @@ class CardTableSurface extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.white,
           side: const BorderSide(color: Colors.white70),
+          disabledForegroundColor: disabledText,
+          disabledBackgroundColor: disabledFill,
         ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          disabledForegroundColor: disabledText,
+          disabledBackgroundColor: disabledFill,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          disabledForegroundColor: disabledText,
+          disabledBackgroundColor: disabledFill,
+        ),
+      ),
+      textButtonTheme: const TextButtonThemeData(
+        style: ButtonStyle(foregroundColor: WidgetStatePropertyAll(Colors.white)),
       ),
     );
 

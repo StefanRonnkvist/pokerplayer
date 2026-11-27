@@ -26,9 +26,11 @@ class HelpPage extends StatelessWidget {
       title: 'Draw',
       description:
           'Complete the betting round, then tap the cards you want to replace '
-          'and select Draw Selected. You can select up to the replacement '
-          'limit in Settings, or choose Stand Pat to keep all five cards. '
-          'Computer players choose their own discards before showdown.',
+          'and select Draw N (labeled with the number of tapped cards). You '
+          'can select up to the replacement limit in Settings, or choose '
+          'Stand Pat to keep all five cards. Disabled buttons stay visible on '
+          'the felt with a gray fill until betting settles. Computer players '
+          'choose their own discards before showdown.',
     ),
     (
       icon: Icons.style_outlined,
@@ -147,8 +149,9 @@ class HelpPage extends StatelessWidget {
                     'highlighted betting actions when it is your turn. Open '
                     'Settings from the app bar to configure the table or reset '
                     'funds. Swipe the tab bar horizontally when a tab is '
-                    'outside the visible area; use the table zoom controls to '
-                    'resize the game display.',
+                    'outside the visible area; use the zoom in, zoom out, and '
+                    'reset zoom controls in the top-right corner of the table '
+                    'to resize the game display (75% to 200%).',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

@@ -5,7 +5,7 @@ Play Poker is a Flutter poker app with five game variants, configurable virtual-
 ## Poker Games
 
 - **Five Card:** Deal five cards to each player, complete a betting round, reveal active hands, and compare standard poker rankings.
-- **Draw:** Complete a betting round, tap up to the configured number of cards to replace or stand pat, and take the remaining hands to showdown.
+- **Draw:** Complete a betting round, then tap the cards you want to replace and press **Draw N** (labeled with the number of tapped cards), or choose **Stand Pat** to keep all five cards. Buttons on the felt stay visible when disabled, and the remaining hands go to showdown.
 - **Stud:** Five-card stud with the first and fifth cards down, cards two through four up, and betting after every card.
 - **Stud7:** Seven-card stud with the first and seventh cards down, five cards up, and betting after every card. The best five-card combination wins.
 - **Hold'em:** Texas Hold'em with two private hole cards, a shared flop, turn, and river, and four betting rounds. The table uses the configured ante rather than blinds, and the best five-card combination from seven available cards wins.
@@ -14,7 +14,7 @@ Play Poker is a Flutter poker app with five game variants, configurable virtual-
 
 - Configure 2-5 players, starting bank, and ante for the poker tables.
 - Set the maximum number of replacement cards for Draw.
-- Bet, raise, call, check, or fold with computer opponents that consider hand strength and pot odds.
+- Bet, raise, call, check, or fold with computer opponents that consider hand strength and pot odds. Unavailable actions remain visible on the felt with a gray disabled fill so the control layout never changes.
 - See a playful random quip when a computer opponent wins two hands in a row outright; ties and Player 1 wins break the streak.
 - Enable Teach Mode to see a suggested bet for Player 1 based on the current hand, opponents, pot, call cost, and available bank.
 - Award the complete virtual-chip pot to the winner or split it between tied winners.
@@ -101,7 +101,7 @@ For an Android APK build that first clears common locked build outputs:
 ./scripts/build-apk-release.ps1 -KillFlutterProcesses
 ```
 
-The current app version is **0.1.36+37**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
+The current app version is **0.1.38+39**, defined in `pubspec.yaml` using Flutter's `major.minor.patch+build` format. Update this README version when the app version changes.
 
 ## Store Listing
 
