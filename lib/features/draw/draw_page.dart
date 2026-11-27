@@ -9,6 +9,7 @@ import '../../app/shared/widgets/betting_actions.dart';
 import '../../app/shared/widgets/game_deck_button_styles.dart';
 import '../../shared/cards/card_back.dart';
 import '../../shared/card_table_surface.dart';
+import '../../shared/wagers/last_wager_store.dart';
 import '../../shared/cards/playing_card_face.dart';
 import '../../shared/computer_win_celebration.dart';
 import '../five_card/models/poker_hand.dart';
@@ -64,6 +65,7 @@ class _DrawPageState extends State<DrawPage> {
   String? payoutMessage;
   String? computerCelebration;
   final computerWinStreaks = <int, int>{};
+  final _lastWagerStore = LastWagerStore();
 
   @override
   void initState() {
@@ -276,8 +278,13 @@ class _DrawPageState extends State<DrawPage> {
     int callAmount = 0,
   }) async {
     final formKey = GlobalKey<FormState>();
-    var amountText = '';
+    final lastAmount = await _lastWagerStore.read();
+    if (!mounted) {
+      return;
+    }
+    var amountText = lastAmount == null ? '' : '$lastAmount';
     final balance = _playerBalance(player);
+    // ignore: use_build_context_synchronously
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -297,6 +304,7 @@ class _DrawPageState extends State<DrawPage> {
             ),
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            initialValue: amountText,
             onChanged: (value) => amountText = value,
             validator: (value) {
               final amount = int.tryParse(value ?? '');
@@ -324,6 +332,7 @@ class _DrawPageState extends State<DrawPage> {
                 return;
               }
               _commitWager(player, int.parse(amountText), action);
+              _lastWagerStore.write(int.parse(amountText));
               Navigator.of(dialogContext).pop();
             },
             child: const Text('Submit'),

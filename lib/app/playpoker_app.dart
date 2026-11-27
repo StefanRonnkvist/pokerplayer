@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../shared/cards/card_back.dart';
 import 'home_tabs_page.dart';
+import 'shared/last_tab_store.dart';
 import 'splash_screen.dart';
 
 class PlayPokerApp extends StatefulWidget {
@@ -16,7 +17,9 @@ class _PlayPokerAppState extends State<PlayPokerApp> {
   static const _selectedCardBackKey = 'selected_card_back';
 
   final _preferences = SharedPreferencesAsync();
+  final _lastTabStore = LastTabStore();
   int _selectedCardBackIndex = 0;
+  int _lastTabIndex = 0;
   bool _selectionChanged = false;
   bool _isInitializing = true;
 
@@ -29,9 +32,11 @@ class _PlayPokerAppState extends State<PlayPokerApp> {
   Future<void> _loadSelectedCardBack() async {
     final results = await Future.wait([
       _preferences.getString(_selectedCardBackKey),
+      _lastTabStore.read(),
       Future<void>.delayed(const Duration(milliseconds: 900)),
     ]);
-    final savedName = results.first as String?;
+    final savedName = results[0] as String?;
+    final savedTabIndex = results[1] as int?;
     final savedIndex = cardBackDesigns.indexWhere(
       (cardBack) => cardBack.name == savedName,
     );
@@ -40,6 +45,9 @@ class _PlayPokerAppState extends State<PlayPokerApp> {
       setState(() {
         if (!_selectionChanged && savedIndex != -1) {
           _selectedCardBackIndex = savedIndex;
+        }
+        if (savedTabIndex != null) {
+          _lastTabIndex = savedTabIndex;
         }
         _isInitializing = false;
       });
@@ -69,6 +77,7 @@ class _PlayPokerAppState extends State<PlayPokerApp> {
             : HomeTabsPage(
                 selectedCardBackIndex: _selectedCardBackIndex,
                 onCardBackSelected: _selectCardBack,
+                initialTabIndex: _lastTabIndex,
               ),
       ),
     );

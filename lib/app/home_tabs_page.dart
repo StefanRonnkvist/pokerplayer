@@ -13,12 +13,14 @@ import '../features/information/information_page.dart';
 import '../features/stud/stud_page.dart';
 import '../shared/card_table_surface.dart';
 import '../shared/cards/card_back.dart';
+import 'shared/last_tab_store.dart';
 
 /// Hosts all game variants and distributes shared table settings to each tab.
 class HomeTabsPage extends StatefulWidget {
   const HomeTabsPage({
     required this.selectedCardBackIndex,
     required this.onCardBackSelected,
+    this.initialTabIndex = 0,
     this.fiveCardStateStore,
     super.key,
   });
@@ -38,15 +40,20 @@ class HomeTabsPage extends StatefulWidget {
   final ValueChanged<int> onCardBackSelected;
   final FiveCardStateStore? fiveCardStateStore;
 
+  /// Tab index restored from persistence after the app reopens.
+  final int initialTabIndex;
+
   @override
   State<HomeTabsPage> createState() => _HomeTabsPageState();
 }
 
-class _HomeTabsPageState extends State<HomeTabsPage> {
+class _HomeTabsPageState extends State<HomeTabsPage>
+    with SingleTickerProviderStateMixin {
   static const _defaultNumberOfPlayers = 5;
   static const _defaultInitialBankAmount = 1000;
   static const _defaultAnteAmount = 2;
 
+  final _lastTabStore = LastTabStore();
   int _numberOfPlayers = _defaultNumberOfPlayers;
   int _initialBankAmount = _defaultInitialBankAmount;
   int _anteAmount = _defaultAnteAmount;
@@ -233,7 +240,14 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: HomeTabsPage._tabLabels.length,
-      child: Scaffold(
+      initialIndex: widget.initialTabIndex.clamp(
+        0,
+        HomeTabsPage._tabLabels.length - 1,
+      ),
+      child: _TabPersistenceListener(
+        store: _lastTabStore,
+        child: Builder(
+          builder: (context) => Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: const Color(0xFF8F1D24),
@@ -337,6 +351,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
             const HelpPage(),
           ],
         ),
+          ),
+        ),
       ),
     );
   }
@@ -357,4 +373,49 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
     }
     return requiredWidth <= availableWidth;
   }
+}
+
+/// Writes the currently open tab index to persistence whenever it changes.
+class _TabPersistenceListener extends StatefulWidget {
+  const _TabPersistenceListener({required this.store, required this.child});
+
+  final LastTabStore store;
+  final Widget child;
+
+  @override
+  State<_TabPersistenceListener> createState() =>
+      _TabPersistenceListenerState();
+}
+
+class _TabPersistenceListenerState extends State<_TabPersistenceListener>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final controller = DefaultTabController.maybeOf(context);
+    if (controller == _controller) {
+      return;
+    }
+    _controller?.removeListener(_handleTabChanged);
+    _controller = controller;
+    controller?.addListener(_handleTabChanged);
+  }
+
+  @override
+  void dispose() {
+    _controller?.removeListener(_handleTabChanged);
+    super.dispose();
+  }
+
+  void _handleTabChanged() {
+    final index = _controller?.index;
+    if (index != null && !_controller!.indexIsChanging) {
+      widget.store.write(index);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

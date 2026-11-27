@@ -1,1 +1,1 @@
-Play five poker games with virtual chips, computer opponents, and always-visible betting controls.
+Play five poker games with virtual chips, computer opponents, remembered tabs, and always-visible betting controls.

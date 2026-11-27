@@ -15,6 +15,8 @@ Play Poker is a Flutter poker app with five game variants, configurable virtual-
 - Configure 2-5 players, starting bank, and ante for the poker tables.
 - Set the maximum number of replacement cards for Draw.
 - Bet, raise, call, check, or fold with computer opponents that consider hand strength and pot odds. Unavailable actions remain visible on the felt with a gray disabled fill so the control layout never changes.
+- Prefill each bet or raise window with the last amount entered; the value persists across sessions.
+- Reopen on the last tab that was open before the app was closed or restarted.
 - See a playful random quip when a computer opponent wins two hands in a row outright; ties and Player 1 wins break the streak.
 - Enable Teach Mode to see a suggested bet for Player 1 based on the current hand, opponents, pot, call cost, and available bank.
 - Award the complete virtual-chip pot to the winner or split it between tied winners.
@@ -37,7 +39,7 @@ Select **Deal** to begin a hand and post the ante. Available betting actions are
 
 ## State Restoration
 
-The Five Card game restores its cards, bankrolls, wagers, player actions, folds, and result when the app reopens. The selected card back is also retained. Draw, Stud, Stud7, and Hold'em currently start fresh when their page is recreated.
+The Five Card game restores its cards, bankrolls, wagers, player actions, folds, and result when the app reopens. The selected card back is also retained, and the app reopens on the last tab that was open. The last amount entered in a bet or raise window is saved and used to prefill the next wager window, even after restarting the app. Draw, Stud, Stud7, and Hold'em currently start fresh when their page is recreated.
 
 All banks, antes, wagers, and pots are virtual. Play Poker does not support real-money wagering or prizes.
 

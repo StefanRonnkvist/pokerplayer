@@ -81,7 +81,8 @@ class HelpPage extends StatelessWidget {
           'you. Bet opens the wagering, Raise increases it, Call matches it, '
           'and Fold leaves the hand. Check passes without wagering when no '
           'call is required. Unavailable actions are disabled, and computer '
-          'play continues if you fold.',
+          'play continues if you fold. Bet and raise windows prefill with the '
+          'last amount you entered.',
     ),
     (
       icon: Icons.school_outlined,
@@ -98,8 +99,11 @@ class HelpPage extends StatelessWidget {
       description:
           'All banks, antes, bets, and pots use virtual chips only; there is '
           'no real-money wagering or prizes. A wager cannot exceed the '
-          'available bank. Five Card progress and the selected card back are '
-          'remembered between sessions; the other games start fresh.',
+          'available bank. The last amount you entered in a bet or raise '
+          'window is saved and used to prefill the next window, even after '
+          'restarting the app. The last open tab is restored on startup. Five '
+          'Card progress and the selected card back are remembered between '
+          'sessions; the other games start fresh.',
     ),
     (
       icon: Icons.info_outline,
@@ -148,10 +152,11 @@ class HelpPage extends StatelessWidget {
                     'you; the remaining seats are computer players. Use the '
                     'highlighted betting actions when it is your turn. Open '
                     'Settings from the app bar to configure the table or reset '
-                    'funds. Swipe the tab bar horizontally when a tab is '
-                    'outside the visible area; use the zoom in, zoom out, and '
-                    'reset zoom controls in the top-right corner of the table '
-                    'to resize the game display (75% to 200%).',
+                    'funds. The last open tab is remembered and restored when '
+                    'the app reopens. Swipe the tab bar horizontally when a '
+                    'tab is outside the visible area; use the zoom in, zoom '
+                    'out, and reset zoom controls in the top-right corner of '
+                    'the table to resize the game display (75% to 200%).',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

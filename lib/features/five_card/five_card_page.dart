@@ -8,6 +8,7 @@ import '../../app/shared/game_layout.dart';
 import '../../app/shared/widgets/betting_actions.dart';
 import '../../app/shared/widgets/game_deck_button_styles.dart';
 import '../../shared/cards/card_back.dart';
+import '../../shared/wagers/last_wager_store.dart';
 import '../../shared/cards/playing_card_face.dart';
 import '../../shared/computer_win_celebration.dart';
 import 'five_card_state.dart';
@@ -53,6 +54,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
 
   final _standardDeck = standardFiftyTwoCardDeck();
   late final FiveCardStateStore _stateStore;
+  final LastWagerStore _lastWagerStore = LastWagerStore();
   Future<void> _pendingSave = Future.value();
   List<PlayingCard>? dealtCards;
   final playerHands = <int, List<PlayingCard>>{};
@@ -499,8 +501,13 @@ class _FiveCardPageState extends State<FiveCardPage> {
     int callAmount = 0,
   }) async {
     final formKey = GlobalKey<FormState>();
-    var amountText = '';
+    final lastAmount = await _lastWagerStore.read();
+    if (!mounted) {
+      return;
+    }
+    var amountText = lastAmount == null ? '' : '$lastAmount';
     final balance = _playerBalance(player);
+    // ignore: use_build_context_synchronously
     await showDialog<void>(
       context: context,
       builder: (dialogContext) {
@@ -557,6 +564,7 @@ class _FiveCardPageState extends State<FiveCardPage> {
                 ),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                initialValue: amountText,
                 onChanged: (value) => amountText = value,
                 validator: (value) {
                   final amount = int.tryParse(value ?? '');
@@ -628,7 +636,9 @@ class _FiveCardPageState extends State<FiveCardPage> {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    _commitWager(player, int.parse(amountText), action);
+    final amount = int.parse(amountText);
+    _commitWager(player, amount, action);
+    _lastWagerStore.write(amount);
     Navigator.of(dialogContext).pop();
   }
 

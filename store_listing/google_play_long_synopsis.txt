@@ -28,6 +28,8 @@ CUSTOMIZE AND PLAY
 - Track bankrolls and wagers with animated chip stacks
 - Continue watching computer play after you fold
 - Award the pot or split it automatically when hands tie
+- Prefill each bet or raise window with the last amount entered
+- Reopen on the last tab that was open
 - Choose from 10 card-back designs, remembered between sessions
 - Zoom the responsive game table to suit your screen
 - Reset the player count, bank, and ante to defaults when you want a fresh start
@@ -37,4 +39,4 @@ Teach Mode estimates a suggested bet from the current hand, opponents, pot, call
 
 Play Poker uses a standard 52-card deck and recognizes hands from High Card through Straight Flush. Responsive tables support phones, tablets, and larger screens, while the tab bar scrolls when space is limited.
 
-The Five Card table restores its current hand and progress when you return; other game tables start fresh when their page is recreated. All chips are virtual, and Play Poker does not support real-money wagering or prizes.
+The Five Card table restores its current hand and progress when you return, and the app reopens on the last tab that was open; the last wager amount entered also prefills the next bet or raise window. Other game tables start fresh when their page is recreated. All chips are virtual, and Play Poker does not support real-money wagering or prizes.
